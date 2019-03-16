@@ -984,6 +984,8 @@ function añadirActor(){
         
             if(produccionRadio != undefined){
                 video.assignActor(persona,produccionAñadir,produccionNombrePapel,produccionPapel);
+                addOneValuesAsignados("AsignarActores", {Actor: persona.name, Producciones: [{Nombre: produccionAñadir.title, Papel: produccionNombrePapel, Principal: produccionPapel}]});
+                
             }
 
             exception.innerHTML = "Actor añadido con exito";
@@ -1057,6 +1059,7 @@ function añadirDirector(){
 
             if(produccionRadio != undefined){
                 video.assignDirector(persona,produccionAñadir);
+                addOneValuesAsignados("AsignarDirectores",{Director: persona.name, Producciones: [produccionAñadir.title]});
             }
 
             exception.innerHTML = "Director añadido con exito";
@@ -2397,6 +2400,7 @@ function eliminarCategorias(){
         video.removeCategory(categoriaBorrar);
 
         deleteValue("Categorias", categoriaBorrar.name);
+        deleteValue("AsignarCategorias", categoriaBorrar.name);
 
         categoriesMenuPopulate();
         entrarAlSistema();
@@ -2440,6 +2444,7 @@ function eliminarActor(){
         video.removeActor(actorBorrar);
 
         deleteValue("Actores",actorBorrar.name);
+        deleteValue("AsignarActores",actorBorrar.name);
 
         entrarAlSistema();
 
@@ -2482,6 +2487,7 @@ function eliminarDirector(){
         video.removeDirector(directorBorrar);
 
         deleteValue("Directores",directorBorrar.name);
+        deleteValue("AsignarDirectores",directorBorrar.name);
 
         entrarAlSistema();
 
@@ -2513,6 +2519,7 @@ function eliminarProduccion(){
                 while (production.done !== true){
                     if(production.value.title === contenidoBorrar){
                         video.deassignCategory(categoria.value,produccionBorrar);
+                        dessasignar("AsignarCategorias",categoria.value.name,produccionBorrar.title);
                     }
                     production = productions.next();
                 }
@@ -2522,7 +2529,8 @@ function eliminarProduccion(){
 			var elenco = video.getCast(produccion.value);
 			var actor = elenco.next();
 			while (actor.done !== true){
-				video.deassignActor(actor.value, produccionBorrar)
+                video.deassignActor(actor.value, produccionBorrar);
+                dessasignarActor("AsignarActores",actor.value.name,produccionBorrar.title);
 				actor = elenco.next();
             }
             
@@ -2534,7 +2542,8 @@ function eliminarProduccion(){
 
 				while(production.done !== true){
 					if(production.value.title === contenidoBorrar){
-							video.deassignDirector(director.value, produccionBorrar);
+                            video.deassignDirector(director.value, produccionBorrar);
+                            dessasignar("AsignarDirectores",director.value.name,produccionBorrar.title);
 					}
 					production = productions.next();
 				}

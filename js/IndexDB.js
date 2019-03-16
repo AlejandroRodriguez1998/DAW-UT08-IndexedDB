@@ -68,6 +68,177 @@ function addValuesAsignados(tabla,array) {
 	};
 }
 
+function addOneValue(tabla,objeto){
+	var request = indexedDB.open(nombreDB);
+
+	request.onsuccess = function(event) {
+		var db = event.target.result;         
+		var objectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
+
+		objectStore.transaction.oncomplete = function(event) {
+			var addObjectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
+		
+			addObjectStore.add(objeto.getObject());
+		};
+	};
+}
+
+function addOneValuesAsignados(tabla,assignar) {
+	var request = indexedDB.open(nombreDB);
+
+	request.onsuccess = function(event) {
+		var db = event.target.result;         
+		var objectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
+
+		objectStore.transaction.oncomplete = function(event) {
+			var addObjectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
+			
+			addObjectStore.add(assignar);
+		};
+	};
+}
+
+function deleteValue(tabla,clave){
+	var request = indexedDB.open(nombreDB);
+
+	request.onsuccess = function(event) {
+		var db = event.target.result;         
+		db.transaction([tabla],"readwrite").objectStore(tabla).delete(clave);
+	};
+}
+
+function modifyCategory(clave,nombreCambiar,descripcion){
+	var request = indexedDB.open(nombreDB);
+
+	request.onsuccess = function(event) {
+		var db = event.target.result;         
+		var objectStore = db.transaction(["Categorias"],"readwrite").objectStore("Categorias");
+
+		var objeto = objectStore.get(clave);
+
+		objectStore.delete(clave);
+
+		objeto.onsuccess = function(event) {
+			// Get the old value that we want to update
+			var datos = objeto.result;
+			
+			datos.Nombre = nombreCambiar;
+			datos.Descripcion = descripcion;
+
+			objectStore.add(datos);
+		};
+	};
+}
+
+function modifyPerson(tabla,clave,nombreCambiar,apellido1,apellido2,nacimiento){
+	var request = indexedDB.open(nombreDB);
+
+	request.onsuccess = function(event) {
+		var db = event.target.result;         
+		var objectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
+
+		var objeto = objectStore.get(clave);
+
+		objectStore.delete(clave);
+
+		objeto.onsuccess = function(event) {
+			// Get the old value that we want to update
+			var datos = objeto.result;
+			
+			datos.Nombre = nombreCambiar;
+			datos.Apellido1 = apellido1;
+			datos.Apellido2 = apellido2;
+			datos.Nacimiento = nacimiento;
+
+			objectStore.add(datos);
+		};
+	};
+}
+
+function assignar(tabla,clave,assignar){
+	var request = indexedDB.open(nombreDB);
+
+	request.onsuccess = function(event) {
+		var db = event.target.result;         
+		var objectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
+
+		var objeto = objectStore.get(clave);
+
+		objectStore.delete(clave);
+
+		objeto.onsuccess = function(event) {
+			// Get the old value that we want to update
+			var datos = objeto.result;
+			
+			datos.Producciones.push(assignar);
+
+			objectStore.add(datos);
+		};
+	};
+}
+
+function dessasignar(tabla,clave,dessasignar){
+	var request = indexedDB.open(nombreDB);
+
+	request.onsuccess = function(event) {
+		var db = event.target.result;         
+		var objectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
+
+		var objeto = objectStore.get(clave);
+
+		objectStore.delete(clave);
+
+		objeto.onsuccess = function(event) {
+			var datos = objeto.result;
+			
+			var lista = datos.Producciones;
+
+			var posicion = lista.indexOf(dessasignar);
+
+			if(posicion != -1){
+				lista.splice(posicion,1); //Lo borro
+			}
+
+			objectStore.add(datos);
+		};
+	};
+}
+
+function dessasignarActor(tabla,clave,dessasignar){
+	var request = indexedDB.open(nombreDB);
+
+	request.onsuccess = function(event) {
+		var db = event.target.result;         
+		var objectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
+
+		var objeto = objectStore.get(clave);
+
+		objectStore.delete(clave);
+
+		objeto.onsuccess = function(event) {
+			var datos = objeto.result;
+			
+			var lista = datos.Producciones;
+
+			for(let i = 0; i < lista.length; i++){
+				if(lista[i].Nombre == undefined){
+					var posicion = lista.indexOf(dessasignar);
+				}else{
+					if(lista[i].Nombre == dessasignar){
+						var posicion = lista[i];
+					}
+				}
+			}
+
+			if(posicion != -1){
+				lista.splice(posicion,1); //Lo borro
+			}
+
+			objectStore.add(datos);
+		};
+	};
+}
+
 function cargarBaseDeDatos(){
 	var resource = new Resource(180,"http://www.alec.com/resource",["Español","Ingles"],["Chino","Japones"]);
 	var resource1 = new Resource(120,"http://www.alec.com/resource");
@@ -168,100 +339,6 @@ function cargarBaseDeDatos(){
 	addValuesAsignados("AsignarCategorias",categoriaProduccion);
 	addValuesAsignados("AsignarActores",actoresProducciones);
 	addValuesAsignados("AsignarDirectores",directoresProducciones);
-}
-
-function addOneValue(tabla,objeto){
-	var request = indexedDB.open(nombreDB);
-
-	request.onsuccess = function(event) {
-		var db = event.target.result;         
-		var objectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
-
-		objectStore.transaction.oncomplete = function(event) {
-			var addObjectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
-		
-			addObjectStore.add(objeto.getObject());
-		};
-	};
-}
-
-function deleteValue(tabla,clave){
-	var request = indexedDB.open(nombreDB);
-
-	request.onsuccess = function(event) {
-		var db = event.target.result;         
-		db.transaction([tabla],"readwrite").objectStore(tabla).delete(clave);
-	};
-}
-
-function modifyCategory(clave,nombreCambiar,descripcion){
-	var request = indexedDB.open(nombreDB);
-
-	request.onsuccess = function(event) {
-		var db = event.target.result;         
-		var objectStore = db.transaction(["Categorias"],"readwrite").objectStore("Categorias");
-
-		var objeto = objectStore.get(clave);
-
-		objectStore.delete(clave);
-
-		objeto.onsuccess = function(event) {
-			// Get the old value that we want to update
-			var datos = objeto.result;
-			
-			datos.Nombre = nombreCambiar;
-			datos.Descripcion = descripcion;
-
-			objectStore.add(datos);
-		};
-	};
-}
-
-function modifyPerson(tabla,clave,nombreCambiar,apellido1,apellido2,nacimiento){
-	var request = indexedDB.open(nombreDB);
-
-	request.onsuccess = function(event) {
-		var db = event.target.result;         
-		var objectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
-
-		var objeto = objectStore.get(clave);
-
-		objectStore.delete(clave);
-
-		objeto.onsuccess = function(event) {
-			// Get the old value that we want to update
-			var datos = objeto.result;
-			
-			datos.Nombre = nombreCambiar;
-			datos.Apellido1 = apellido1;
-			datos.Apellido2 = apellido2;
-			datos.Nacimiento = nacimiento;
-
-			objectStore.add(datos);
-		};
-	};
-}
-
-function assignar(tabla,clave,assignar){
-	var request = indexedDB.open(nombreDB);
-
-	request.onsuccess = function(event) {
-		var db = event.target.result;         
-		var objectStore = db.transaction([tabla],"readwrite").objectStore(tabla);
-
-		var objeto = objectStore.get(clave);
-
-		objectStore.delete(clave);
-
-		objeto.onsuccess = function(event) {
-			// Get the old value that we want to update
-			var datos = objeto.result;
-			
-			datos.Producciones.push(assignar);
-
-			objectStore.add(datos);
-		};
-	};
 }
 
 var centesimas = 0;

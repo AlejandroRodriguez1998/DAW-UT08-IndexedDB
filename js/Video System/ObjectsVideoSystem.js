@@ -159,7 +159,7 @@ function Resource(duration,link,audios,subtitles){
 	duration = typeof duration !== 'undefined' ? duration : 0;
 	if (duration === 0) throw new EmptyValueException("duration");
 	link = typeof link !== 'undefined' ? link : "";
-	if (link === "") throw new EmptyValueException("link");
+	//if (link === "") throw new EmptyValueException("link");
 	audios = typeof audios !== 'undefined' ? audios : [];
 	subtitles = typeof subtitles !== 'undefined' ? subtitles : [];
 
@@ -400,9 +400,9 @@ function Serie(title,nationality,publication,synopsis,image,seasons){
 	//Invocamos el constructor de la clase padre
 	Production.call(this,title,nationality,publication,synopsis,image);
 
-	for(var i=0; i < seasons.length; i++){
+	/*for(var i=0; i < seasons.length; i++){
 		if(!(seasons[i] instanceof Season)) throw new InvalidAccessException("Season");
-	}//EN UN FUTURO ESTO POSIBLEMENTE HABRÁ QUE CAMBIARLO COMO RESOURCE
+	}*///EN UN FUTURO ESTO POSIBLEMENTE HABRÁ QUE CAMBIARLO COMO RESOURCE
 	seasons = typeof seasons !== 'undefined' ? seasons : [];
 
 	var _seasons = seasons;
@@ -455,12 +455,12 @@ function Season(title,episodes){
     //Validación de parámetros obligatorios
     title = typeof title !== 'undefined' ? title : "";
 	if (title === "") throw new EmptyValueException("title");
-	for(var i=0; i < episodes.length; i++){
-		if(!(episodes[i].episode instanceof Resource)) throw new InvalidAccessException('Resource');
+	/*for(var i=0; i < episodes.length; i++){
+		//if(!(episodes[i].episode instanceof Resource)) throw new InvalidAccessException('Resource');
 		for(var y = 0; y < episodes[i].scenarios.length; y++ ){
 			if(!(episodes[i].scenarios[y] instanceof Coordinate)) throw new InvalidAccessException("Coordinate");
 		}
-	}
+	}*/
 	episodes = typeof episodes !== 'undefined' ? episodes : [];
 
     //Atributos privados del objeto
@@ -510,6 +510,7 @@ Season.prototype.getObject = function(){
 	function desplegarEpisodios(value){
 		var array = new Array();
 		for(let i = 0; i < value.length; i++){
+			array.push({Titulo: value[i].title});
 			array.push(value[i].episode.getObject());
 			for(var y = 0; y < value[i].scenarios.length; y++ ){
 				array.push(value[i].scenarios[y].getObject());
@@ -644,6 +645,6 @@ Coordinate.prototype.toString = function(){
 Coordinate.prototype.getObject = function(){
 	return {
 		Latitud: this.latitude,
-		Logitud: this.longitude
+		Longitud: this.longitude
 	}
 }

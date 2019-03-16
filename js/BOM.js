@@ -80,7 +80,7 @@ function showResource(){
 				tipo.setAttribute("id", "actorDirector");
 				tipo.appendChild(document.createTextNode("Actor"));
 				var imagen = document.createElement("img");
-				imagen.setAttribute("class","card-img");
+				imagen.setAttribute("class","card-img mb-2");
 				imagen.setAttribute("width","50");
 				imagen.setAttribute("heigh","50");
 
@@ -102,19 +102,53 @@ function showResource(){
 				//Si es distinto de null pone el recurso de la produccion
 				if(produccion.value.resource != null){
 					var resource = document.createElement("p");
-					resource.setAttribute("class","card-text");
+					resource.setAttribute("class","card-text font-weight-bold m-0");
+					resource.appendChild(document.createTextNode("• Recurso: "));
 
-					/* SIPNOSIS DE LA PRODUCCION */ 
-					resource.appendChild(document.createTextNode("Recurso: " + produccion.value.resource));
 					cuerpo.appendChild(resource);
+					
+					var duracion = document.createElement("p");
+					duracion.setAttribute("class","card-text m-0 ml-3");
+					duracion.appendChild(document.createTextNode("Duración: " + produccion.value.resource.duration.Duracion));
+
+					cuerpo.appendChild(duracion);
+
+					var link = document.createElement("p");
+					link.setAttribute("class","card-text m-0 ml-3");
+					link.appendChild(document.createTextNode("Link: " + produccion.value.resource.duration.Link));
+
+					cuerpo.appendChild(link);
+
+					var audios = document.createElement("p");
+					audios.setAttribute("class","card-text m-0 ml-3");
+					audios.appendChild(document.createTextNode("Audios: " + produccion.value.resource.duration.Audios));
+
+					cuerpo.appendChild(audios);
+
+					var subtitulos = document.createElement("p");
+					subtitulos.setAttribute("class","card-text m-0 ml-3");
+					subtitulos.appendChild(document.createTextNode("Subtitulos: " + produccion.value.resource.duration.Subtitulos));
+
+					cuerpo.appendChild(subtitulos);
 				}
 				//Si es distinto de null pone la localizacion de la produccion
-				if(produccion.value.locations != null){
+				if(produccion.value.locations != ""){
 					var locations = document.createElement("p");
-					locations.setAttribute("class","card-text");
+					locations.setAttribute("class","card-text font-weight-bold m-0");
+					locations.appendChild(document.createTextNode("• Localizacion: "));
 
-					/* SIPNOSIS DE LA PRODUCCION */ 
-					locations.appendChild(document.createTextNode("Localizacion: " + produccion.value.locations));
+					cuerpo.appendChild(locations);
+
+					var locations = document.createElement("p");
+					locations.setAttribute("class","card-text m-0 ml-3");
+					locations.appendChild(document.createTextNode("Latitud: " + produccion.value.locations.Latitud));
+					
+					cuerpo.appendChild(locations);
+
+					var locations = document.createElement("p");
+					locations.setAttribute("class","card-text m-0 ml-3");
+					locations.appendChild(document.createTextNode("Longitud: " + produccion.value.locations.Longitud));
+					
 					cuerpo.appendChild(locations);
 				}
 			}//Fin del instanceof
@@ -122,29 +156,70 @@ function showResource(){
 			if(produccion.value.seasons != null){
 				//Si tiene temporadas las muestra
 				
-				for (let index = 0; index < produccion.value.seasons.length; index++) {
+				for (let index = 0; index < produccion.value.seasons.length; index++){
 					var season = document.createElement("p");
-					season.setAttribute("class","cajaTitulo");
-					season.appendChild(document.createTextNode("Temporada "+(index+1)+":"));
-					
+					season.setAttribute("class","cajaTitulo font-weight-bold m-0");
+					season.appendChild(document.createTextNode("• " + produccion.value.seasons[index].Titulo + ":"));
+
 					cuerpo.appendChild(season);
 
-					for(let indexArray = 0; indexArray < produccion.value.seasons[index].episodes.length; indexArray++){
-						var episodio = document.createElement("p");
-						episodio.setAttribute("class","cajaDescripcion");
-						
-						var concatenar = produccion.value.seasons[index].episodes[indexArray].title + ": " 
-						+ produccion.value.seasons[index].episodes[indexArray].episode + " ";
-
-						for(let indexCoor = 0; indexCoor < produccion.value.seasons[index].episodes[indexArray].scenarios.length; indexCoor++){
-							concatenar += produccion.value.seasons[index].episodes[indexArray].scenarios[indexCoor] + " ";
+					for(let indexArray = 0; indexArray < produccion.value.seasons[index].Episodios.length; indexArray++){
+					
+						if(produccion.value.seasons[index].Episodios[indexArray].Titulo != undefined && produccion.value.seasons[index].Episodios[indexArray].Titulo != ""){
+							var episodio = document.createElement("p");
+							episodio.setAttribute("class","cajaDescripcion m-0 ml-1 font-weight-light");
+							episodio.appendChild(document.createTextNode(produccion.value.seasons[index].Episodios[indexArray].Titulo)); 	
+							
+							cuerpo.appendChild(episodio);
 						}
 
-						episodio.appendChild(document.createTextNode(concatenar));
-						cuerpo.appendChild(episodio);
+						if(produccion.value.seasons[index].Episodios[indexArray].Duracion != undefined && produccion.value.seasons[index].Episodios[indexArray].Duracion != ""){
+							var episodio = document.createElement("p");
+							episodio.setAttribute("class","cajaDescripcion m-0 ml-3");
+							episodio.appendChild(document.createTextNode("Recurso: " + produccion.value.seasons[index].Episodios[indexArray].Duracion + " Duracion")); 	
+							
+							cuerpo.appendChild(episodio);
+						}
+
+						if(produccion.value.seasons[index].Episodios[indexArray].Link != undefined && produccion.value.seasons[index].Episodios[indexArray].Link != ""){
+							var episodio = document.createElement("p");
+							episodio.setAttribute("class","cajaDescripcion m-0 ml-5");
+							episodio.appendChild(document.createTextNode("Link: " + produccion.value.seasons[index].Episodios[indexArray].Link));
+							
+							cuerpo.appendChild(episodio);
+						}
+
+						if(produccion.value.seasons[index].Episodios[indexArray].Audios != undefined && produccion.value.seasons[index].Episodios[indexArray].Audios != ""){
+							var episodio = document.createElement("p");
+							episodio.setAttribute("class","cajaDescripcion m-0 ml-5");
+							episodio.appendChild(document.createTextNode("Audios: " + produccion.value.seasons[index].Episodios[indexArray].Audios));
+	
+							cuerpo.appendChild(episodio);
+						}
+
+						if(produccion.value.seasons[index].Episodios[indexArray].Subtitulos != undefined && produccion.value.seasons[index].Episodios[indexArray].Subtitulos != ""){
+							var episodio = document.createElement("p");
+							episodio.setAttribute("class","cajaDescripcion m-0 ml-5");
+							episodio.appendChild(document.createTextNode("Subtitulos: " + produccion.value.seasons[index].Episodios[indexArray].Subtitulos));
+							
+							cuerpo.appendChild(episodio);
+						}
+
+						if(produccion.value.seasons[index].Episodios[indexArray].Latitud != undefined && produccion.value.seasons[index].Episodios[indexArray].Latitud != "" && produccion.value.seasons[index].Episodios[indexArray].Longitud != undefined && produccion.value.seasons[index].Episodios[indexArray].Longitud != ""){
+							var episodio = document.createElement("p");
+							episodio.setAttribute("class","cajaDescripcion m-0 ml-3");
+							episodio.appendChild(document.createTextNode("Localización: Latitud: " + produccion.value.seasons[index].Episodios[indexArray].Latitud + " Longitud: " + produccion.value.seasons[index].Episodios[indexArray].Longitud));
+							
+							cuerpo.appendChild(episodio);
+						}
 					}
 				}
 			}
+			var episodio = document.createElement("p");
+			episodio.setAttribute("class","cajaDescripcion text-center m-1");
+			episodio.appendChild(document.createTextNode("ʕ•ᴥ•ʔ"));
+			
+			cuerpo.appendChild(episodio);
 		}//Fin del if
 		produccion = producciones.next();
 	}//Fin del while

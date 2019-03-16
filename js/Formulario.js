@@ -912,11 +912,12 @@ function añadirCategorias(){
 
         try{
             video.addCategory(category);
+            addOneValue("Categorias",category);
             exception.innerHTML = "Categoría añadida con éxito";
         }catch(error){
             exception.innerHTML = error.message;
         }
-        addOneValue("Categorias",category);
+       
         categoriesMenuPopulate();
     }
 }
@@ -979,6 +980,7 @@ function añadirActor(){
             var persona = new Person(nombre.value,apellido1.value,apellido2,new Date(nacimiento.value),imagen);
 
             video.addActor(persona);
+            addOneValue("Actores",persona);
         
             if(produccionRadio != undefined){
                 video.assignActor(persona,produccionAñadir,produccionNombrePapel,produccionPapel);
@@ -989,7 +991,7 @@ function añadirActor(){
         }catch(error){
             exception.innerHTML = error.message;
         }
-        addOneValue("Actores",persona);
+       
     }
 }
 
@@ -1051,7 +1053,8 @@ function añadirDirector(){
             var persona = new Person(nombre.value,apellido1.value,apellido2,new Date(nacimiento.value),imagen);
 
             video.addDirector(persona);
-            
+            addOneValue("Directores",persona);
+
             if(produccionRadio != undefined){
                 video.assignDirector(persona,produccionAñadir);
             }
@@ -1062,7 +1065,6 @@ function añadirDirector(){
             exception.innerHTML = error.message;
         }
 
-        addOneValue("Directores",persona);
     }
 }
 
@@ -1344,26 +1346,27 @@ function añadirSerie(){
             var serie = new Serie(titulo.value,nacionalidad,new Date(publicacion.value),synopsis,imagen,arraySeasonAsignar);
 
             video.addProduction(serie);
+            addOneValue("Producciones",serie);
 
             for(let i = 0; i < arrayCategoriasAsociar.length; i++){
                 video.assignCategory(arrayCategoriasAsociar[i],serie);
+                assignar("AsignarCategorias",arrayCategoriasAsociar[i].name,serie.title);
             }
 
             for(let i = 0; i < arrayActorAsociar.length; i++){
                 video.assignActor(arrayActorAsociar[i],serie);
+                assignar("AsignarActores",arrayActorAsociar[i].name,serie.title);
             }
 
             for(let i = 0; i < arrayDirectorAsociar.length; i++){
                 video.assignDirector(arrayDirectorAsociar[i],serie);
+                assignar("AsignarDirectores",arrayDirectorAsociar[i].name,serie.title);
             }
 
             exepcion.innerHTML = "Serie añadida con éxito";
         }catch(error){
             exepcion.innerHTML = error.message;
         }
-
-        addOneValue("Producciones",serie);
-
     }
 }
 
@@ -1494,17 +1497,21 @@ function añadirPelicula(){
             var movie = new Movie(titulo.value,nacionalidad,new Date(publicacion.value),synopsis,imagen,recurso,new Coordinate(arrayLoca[0],arrayLoca[1]));
 
             video.addProduction(movie);
+            addOneValue("Producciones",movie);
 
             for(let i = 0; i < arrayCategoriasAsociar.length; i++){
                 video.assignCategory(arrayCategoriasAsociar[i],movie);
+                assignar("AsignarCategorias",arrayCategoriasAsociar[i].name,movie.title);
             }
 
             for(let i = 0; i < arrayActorAsociar.length; i++){
                 video.assignActor(arrayActorAsociar[i],movie);
+                assignar("AsignarActores",arrayActorAsociar[i].name,movie.title);
             }
 
             for(let i = 0; i < arrayDirectorAsociar.length; i++){
                 video.assignDirector(arrayDirectorAsociar[i],movie);
+                assignar("AsignarDirectores",arrayDirectorAsociar[i].name,movie.title);
             }
 
             exepcion.innerHTML = "Pelicula añadida con éxito";
@@ -1512,7 +1519,6 @@ function añadirPelicula(){
             exepcion.innerHTML = error.message;
         }
 
-        addOneValue("Producciones",movie);
     }
 
 }

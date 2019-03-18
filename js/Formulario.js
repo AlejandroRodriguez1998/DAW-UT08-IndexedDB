@@ -1896,6 +1896,7 @@ function modificarCategorias(){
             categoria.value.description = descripcion;
 
             modifyCategory(nombreBuscar,nombre,descripcion);
+            modifyCategoryAsignada(nombreBuscar,nombre);
 
 			encontrado = true;
 		}

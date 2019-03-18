@@ -913,6 +913,7 @@ function añadirCategorias(){
         try{
             video.addCategory(category);
             addOneValue("Categorias",category);
+            addOneValuesAsignados("AsignarCategorias",{Categoria: category.name, Producciones: []});
             exception.innerHTML = "Categoría añadida con éxito";
         }catch(error){
             exception.innerHTML = error.message;
@@ -1896,6 +1897,7 @@ function modificarCategorias(){
             categoria.value.description = descripcion;
 
             modifyCategory(nombreBuscar,nombre,descripcion);
+            modifyCategoryAsignada(nombreBuscar,nombre);
 
 			encontrado = true;
 		}
@@ -1928,7 +1930,7 @@ function modificarActor(){
             actor.value.born = new Date(arrayNacimiento[2],arrayNacimiento[1],arrayNacimiento[0]);
 
             modifyPerson("Actores",nombreBuscar,nombre,apellido1,apellido2,new Date(arrayNacimiento[2],arrayNacimiento[1],arrayNacimiento[0]));
-
+            modifyActorAsignada(nombreBuscar,nombre);
 			encontrado = true;
 		}
 		
@@ -1962,6 +1964,7 @@ function modificarDirector(){
             director.value.born = new Date(arrayNacimiento[2],arrayNacimiento[1],arrayNacimiento[0]);
 
             modifyPerson("Directores",nombreBuscar,nombre,apellido1,apellido2,new Date(arrayNacimiento[2],arrayNacimiento[1],arrayNacimiento[0]));
+            modifyDirectorAsignada(nombreBuscar,nombre);
 
 			encontrado = true;
 		}

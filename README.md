@@ -14,4 +14,7 @@ Practica Unidad 08 Almacenamiento
   - Añadir asignación
   - Modificar Categorias y Personas
   - Borrar valor
+
+  # Version 1.0.3
+  - Funcionalidad 100%
   

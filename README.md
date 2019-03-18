@@ -15,6 +15,6 @@ Practica Unidad 08 Almacenamiento
   - Modificar Categorias y Personas
   - Borrar valor
 
-  #Version 1.0.3
+  # Version 1.0.3
   - Funcionalidad 100%
   
